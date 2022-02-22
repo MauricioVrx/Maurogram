@@ -1,0 +1,11 @@
+{% extends "accounts/base.html" %}
+
+{% block head_content %}
+    <title>Cambia tu contraseña</title>
+{% endblock %}
+
+{% block container %}
+    <h1>Correo enviado</h1>
+    <p>Revise su correo electrónico <b>{{mail.email}}</b>, le hemos enviado las instrucciones para reiniciar su contraseña.</p>
+    <a href="{% url "users:login" %}" class="button">Volver</a>
+{% endblock %}

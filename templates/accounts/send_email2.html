@@ -1,0 +1,14 @@
+{% load i18n %}{% autoescape off %}
+{% blocktranslate %}Usted ha recibido este correo porque solicitó un cambio de contraseña para su cuenta de usuario  en nuestro sitio {{ site_name }}.{% endblocktranslate %}
+
+{% translate "Ingrese a esta página e ingrese una nueva contraseña:" %}
+{% block reset_link %}
+{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+{% endblock %}
+{% translate 'En caso de que su no recuerde su nombre de usuario:' %} {{ user.get_username }}
+
+{% translate "Gracias por confiar en nosotros!" %}
+
+{% blocktranslate %} Equipo de {{ site_name }} {% endblocktranslate %}
+
+{% endautoescape %}

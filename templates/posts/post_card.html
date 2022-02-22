@@ -1,0 +1,78 @@
+<div class="col-sm-12 col-md-8 offset-md-2 mt-5 p-0 post-container">
+    <div class="media pt-3 pl-3 pb-1">
+        <a href="{% url "users:detail" post.user.username %}">
+            <img class="mr-3 rounded-circle" height="35" src="{{ post.profile.picture.url }}" alt="{{ post.user.get_full_name }}">
+        </a>
+        <div class="media-body">
+            <p style="margin-top: 5px;">{{ post.user.get_full_name  }}</p>
+        </div>
+    </div>
+
+    <a href="{% url "posts:detail" user.username post.id %}" >
+        <img style="width: 100%;" src="{{ post.photo.url }}" alt="{{ post.title }}">
+    </a>
+
+    <p class="mt-1 ml-2" >
+        <a href="{% url "posts:like" user.username post.id %}" style="color: #000; font-size: 20px;">
+            {% if post.id|get_own_like:user  == 'l' %}
+                <i class="fas fa-heart"></i>
+            {% else %}
+                <i class="far fa-heart"></i>
+            {% endif %} </a>
+            {{ post.id|get_likes }} likes 
+    </p>
+
+    <p class="ml-2 mt-0 mb-2">
+        <b>{{ post.title }}</b> - <small>{{ post.created }}</small>
+    </p>
+
+    {% for comment in post|get_comments:limit_comment %}
+        {% if forloop.counter0 == 0 %}
+        <hr>
+        {% endif %}        
+        <div class="media pt-3 pl-3 pb-2">
+            <a href="{% url "users:detail" comment.username %}">
+                <img class="mr-3 rounded-circle" height="40" src="/media/{{ comment.picture }}" alt="{{ comment.username }}">
+            </a>
+            <div class="media-body">
+                <p><b>{{comment.first_name}} {{comment.last_name}}</b> {{ comment.comment }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="container">
+        <div class="row" >
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col text-right text-info">
+                {% with count_comment=post|get_count_all_comments:limit_comment %}
+                    {% if count_comment > 0 %}
+                        <p >
+                        <a class="text-info" href="{% url "posts:detail" post.user.username post.id %}">
+                        {{count_comment}}
+                        {% if count_comment == 1 %}comentario más{% else %}comentarios más{% endif %}
+                        </a>
+                        </p>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+
+    <form action="{% url "posts:new_commentary" post.user.username post.id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="input-group">
+            <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Añade un comentario"
+                name="commentary"
+            >
+            <button 
+                type="submit" 
+                class="btn btn-outline-secondary"
+            >Publicar</button>
+        </div>
+    </form>
+    
+</div>

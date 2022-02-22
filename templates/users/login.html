@@ -1,0 +1,26 @@
+{% extends "users/base.html" %}
+
+{% block head_content %}
+    <title>Maurogram sign in</title>
+{% endblock %}
+
+{% block container %}
+
+    {% if form.errors %}
+        <p class="alert alert-danger">
+            Su nombre de usuario o su contraseña son incorrecto, intente nuevamente.
+        </p>
+    {% endif %}
+
+    <form method="POST" action="{% url "users:login" %}">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <input type="text" class="form-control mb-2" placeholder="Nombre de usuario" name="username">
+            <input type="password" class="form-control"  placeholder="Contraseña" name="password">
+        </div>
+        <button class="btn btn-primary btn-block mt-5" type="submit">Ingresa</button>
+    </form>
+    <p class="mt-4">¿Aún no tienes cuenta? <a href="{% url "users:signup" %}">Registrate aquí</a></p>
+    <p><a href="{% url "users:reset_password" %}">Cambiar contraseña</a></p>
+{% endblock %}

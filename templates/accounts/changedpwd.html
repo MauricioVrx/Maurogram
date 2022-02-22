@@ -1,0 +1,11 @@
+{% extends "accounts/base.html" %}
+
+{% block head_content %}
+    <title>Cambia tu contraseña</title>
+{% endblock %}
+
+{% block container %}
+    <h1>Contraseña cambiada</h1>
+    <p>Su contraseña se ha cambiado satisfatoriamente, ingrese a su cuenta con el usuario <b>{{username}}</b>.</p>
+    <a href="{% url "users:login" %}" class="button">Iniciar sesión</a>
+{% endblock %}

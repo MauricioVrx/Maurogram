@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block head_content %}
+<title>@{{ user.username }} | Maurogram</title>
+{% endblock %}
+
+{% block container %}
+
+    <div class="container mb-5" style="margin-top: 8em;">
+        <div class="row">
+            <div class="col-sm-4 d-flex justify-content-center">
+                <img 
+                    src="{{ user.profile.picture.url }}" 
+                    alt="@{{ user.username}}" 
+                    class="z-depth-2 rounded-circle" 
+                    width="200px" 
+                />
+            </div>
+            <div class="col-sm-8">
+                <h1 style="font-weight: 100;">
+                    {{ user.username }} | {{ user.get_full_name }}
+                    {% if user == request.user %}
+                        <a
+                            href="{% url "users:update_profile" %}"
+                            class="ml-5 btn btn-sm btn-outline-info"
+                        >
+                            Edit profile
+                        </a>
+                    {% else %}
+                        <a
+                            href="{% url "users:follow" user.username  %}"
+                            class="ml-5 btn btn-sm btn-primary"
+                        >
+                            {% if  follow.status  == 'f' %}
+                                Siguiendo
+                            {% else %}
+                                Seguir
+                            {% endif %}                      
+                        </a>
+                    {% endif %}
+                </h1>
+                <div class="row mt-2" style="font-size: 1.2em">
+                    <div class="col-sm-4">
+                        <b>{{ user.profile.posts_count }}{{ my_posts }}</b> Publicaciones 
+                    </div>
+                    <div class="col-sm-4">
+                        <b>{{ user.profile.followers }}{{ followers }}</b> Seguidores
+                    </div>
+                    <div class="col-sm-4">
+                        <b>{{ user.profile.following }}{{ following }}</b> Seguidos
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-sm-12">
+                        <p>{{ user.profile.biography }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="container" id="user-posts">
+        <div class="row mt-3">
+            {% for post in posts %}
+            <div class="col-sm-4 pt-5 pb-5  d-flex justify-content-center align-items-center">
+                <a href="{% url "posts:detail" user.username post.id %}" >
+                    <img 
+                        src="{{ post.photo.url }}" 
+                        alt="{{ post.title }}" 
+                        class="img-fluid" 
+                        
+                    />
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

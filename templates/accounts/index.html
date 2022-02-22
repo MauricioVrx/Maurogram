@@ -1,0 +1,16 @@
+{% extends "accounts/base.html" %}
+
+{% block head_content %}
+    <title>Reinicia tu contraseña</title>
+{% endblock %}
+
+{% block container %}
+  <h1>Reinicia tu contraseña</h1>
+  <p>Ingresa tu nombre de usuario, te enviaremos intrucciones para que puedas reiniciar la contraseña.</p>
+
+  <form method="POST" action='#'>
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="username">
+    <input type="submit" type="submit" value="Enviame instrucciones">
+  </form>
+{% endblock %} 
